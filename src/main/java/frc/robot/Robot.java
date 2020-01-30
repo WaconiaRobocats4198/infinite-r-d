@@ -32,6 +32,8 @@ public class Robot extends TimedRobot {
 
     Joystick logi = new Joystick(1);
 
+    colorParse colorTest = new colorParse();
+
   @Override
   public void robotInit() {
 
@@ -57,10 +59,10 @@ public class Robot extends TimedRobot {
   
   @Override
   public void teleopPeriodic() {
-    System.out.println("FECK");
-    System.out.println(scan.getBlue());
-
-    System.out.println(scan.getGreen());
+    System.out.println(scan.getBlue() + " blue");
+    System.out.println(scan.getGreen() + " green");
+    System.out.println(scan.getRed() + " red");
+    // colorTest.colorOutput(scan.getBlue(), scan.getGreen(), scan.getRed());
     
 
     double powerOut = (-logi.getRawAxis(2) + 1)* 0.5;

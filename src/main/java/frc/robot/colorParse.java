@@ -1,15 +1,20 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot;
 
-/**
- * Add your docs here.
- */
 public class colorParse{
-    
+    String colorOutput(int blue, int green, int red){
+        if(red < 0 && red > -10 && green < 0 && green > -10 && blue < 0 && blue > -10){
+            return "R";
+        }
+        else if(red < 0 && red > -10 && green < 0 && green > -10 && blue < 0 && blue > -10){
+            return "G";
+        }
+        else if(red < 0 && red > -10 && green < 0 && green > -10 && blue < 0 && blue > -10){
+            return "B";
+        }
+        else if(red < 0 && red > -10 && green < 0 && green > -10 && blue < 0 && blue > -10){
+            return "Y";
+        }
+        
+        return "non";
+    }
 }
