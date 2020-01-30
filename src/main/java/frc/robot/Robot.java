@@ -55,7 +55,7 @@ public class Robot extends TimedRobot {
     if(powerRead == 69){
       System.out.println("nice");
     }
-
+      //oh hi there
     upper.set(-powerOut);
     lower.set(-powerOut);
     
