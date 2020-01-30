@@ -62,8 +62,7 @@ public class Robot extends TimedRobot {
     // System.out.println("FECK");
     // System.out.println(scan.getBlue());
     // System.out.println(logi.getRawAxis(2));
-    double powerOut = (-logi.getRawAxis(2) + 1)* 0.5;
-    System.out.printf("%.2f", 100*powerOut);
+    
     
     // upper.set(-powerOut);
     // lower.set(-powerOut);
