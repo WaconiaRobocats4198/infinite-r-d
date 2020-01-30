@@ -27,7 +27,7 @@ public class Robot extends TimedRobot {
 
     ColorSensorV3 scan = new ColorSensorV3(i2Color);
 
-    WPI_TalonSRX tipper = new WPI_TalonSRX(9);
+    // WPI_TalonSRX tipper = new WPI_TalonSRX(9);
 
     Joystick logi = new Joystick(1);
 
@@ -59,13 +59,17 @@ public class Robot extends TimedRobot {
   
   @Override
   public void teleopPeriodic() {
-    
-    double powerOut = (-logi.getRawAxis(2) + 1)* 0.5;
-    
-    upper.set(powerOut);
-    lower.set(powerOut);
+    // System.out.println("FECK");
+    // System.out.println(scan.getBlue());
 
-    tipper.set(logi.getRawAxis(1));
+    // System.out.println(logi.getRawAxis(2));
+    double powerOut = (-logi.getRawAxis(2) + 1)* 0.5;
+    System.out.printf("%.2f", 100*powerOut);
+    
+    // upper.set(-powerOut);
+    // lower.set(-powerOut);
+
+    // tipper.set(logi.getRawAxis(1));
     
   }
 
