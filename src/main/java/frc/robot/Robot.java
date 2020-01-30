@@ -59,6 +59,8 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     System.out.println("FECK");
     System.out.println(scan.getBlue());
+
+    System.out.println(scan.getGreen());
     
 
     double powerOut = (-logi.getRawAxis(2) + 1)* 0.5;
