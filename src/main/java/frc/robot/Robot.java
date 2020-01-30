@@ -26,21 +26,14 @@ public class Robot extends TimedRobot {
     CANSparkMax upper = new CANSparkMax(3, MotorType.kBrushless);
     CANSparkMax lower = new CANSparkMax(1, MotorType.kBrushless);
 
-<<<<<<< HEAD
     // ColorSensorV3 scan = new ColorSensorV3(i2Color);
 
-=======
->>>>>>> 553cef0c11acd40741e5d801b6d5556ae5dbf5d5
     // WPI_TalonSRX tipper = new WPI_TalonSRX(9);
 
     Joystick logi = new Joystick(1);
 
-<<<<<<< HEAD
     
     // Color readColor = scan.getColor();
-=======
-    CANEncoder upperEnc = upper.getEncoder();
->>>>>>> 553cef0c11acd40741e5d801b6d5556ae5dbf5d5
 
   @Override
   public void robotInit() {
@@ -67,7 +60,6 @@ public class Robot extends TimedRobot {
   
   @Override
   public void teleopPeriodic() {
-<<<<<<< HEAD
     // System.out.println("FECK");
     // System.out.println(scan.getBlue());
     // System.out.println(logi.getRawAxis(2));
@@ -75,7 +67,7 @@ public class Robot extends TimedRobot {
     
     // upper.set(-powerOut);
     // lower.set(-powerOut);
-=======
+
     double powerOut = (-logi.getRawAxis(2) + 1)* 0.5;
     int powerRead = (int)(powerOut*100);
 
@@ -89,7 +81,6 @@ public class Robot extends TimedRobot {
     
     upper.set(-powerOut);
     lower.set(-powerOut);
->>>>>>> 553cef0c11acd40741e5d801b6d5556ae5dbf5d5
 
     // tipper.set(logi.getRawAxis(1));
     
