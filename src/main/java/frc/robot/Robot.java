@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.ctre.phoenix.motorcontrol.can.*;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANEncoder;
 import com.revrobotics.SparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;;
 
@@ -18,6 +19,8 @@ public class Robot extends TimedRobot {
     // WPI_TalonSRX tipper = new WPI_TalonSRX(9);
 
     Joystick logi = new Joystick(1);
+
+    CANEncoder upperEnc = upper.getEncoder();
 
   @Override
   public void robotInit() {
@@ -55,8 +58,7 @@ public class Robot extends TimedRobot {
 
     upper.set(-powerOut);
     lower.set(-powerOut);
-
-    // System.out.println(upper.getAppliedOutput());
+    
 
     // tipper.set(logi.getRawAxis(1));
     
