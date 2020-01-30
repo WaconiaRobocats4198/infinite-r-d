@@ -15,7 +15,7 @@ public class Robot extends TimedRobot {
     CANSparkMax upper = new CANSparkMax(3, MotorType.kBrushless);
     CANSparkMax lower = new CANSparkMax(1, MotorType.kBrushless);
 
-    WPI_TalonSRX tipper = new WPI_TalonSRX(9);
+    // WPI_TalonSRX tipper = new WPI_TalonSRX(9);
 
     Joystick logi = new Joystick(1);
 
@@ -46,11 +46,19 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     double powerOut = (-logi.getRawAxis(2) + 1)* 0.5;
-    
-    upper.set(powerOut);
-    lower.set(powerOut);
+    int powerRead = (int)(powerOut*100);
 
-    tipper.set(logi.getRawAxis(1));
+    System.out.println(powerRead);
+    if(powerRead == 69){
+      System.out.println("nice");
+    }
+
+    upper.set(-powerOut);
+    lower.set(-powerOut);
+
+    // System.out.println(upper.getAppliedOutput());
+
+    // tipper.set(logi.getRawAxis(1));
     
   }
 
