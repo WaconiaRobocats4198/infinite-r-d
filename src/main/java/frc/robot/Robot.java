@@ -49,7 +49,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     double powerOut = (-logi.getRawAxis(2) + 1)* 0.5;
-<<<<<<< HEAD
     int powerRead = (int)(powerOut*100);
 
     System.out.println(powerRead);
@@ -60,13 +59,8 @@ public class Robot extends TimedRobot {
     upper.set(-powerOut);
     lower.set(-powerOut);
     
-    int powerRead = (int)(100*powerOut);
-
-    System.out.println(powerRead);
-
     upper.set(-powerOut);
     lower.set(-powerOut);
->>>>>>> 37fc2b87b8918ed8ec48c8ab5095a152fd9409ce
 
     // tipper.set(logi.getRawAxis(1));
     
