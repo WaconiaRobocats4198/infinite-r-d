@@ -23,14 +23,14 @@ public class Robot extends TimedRobot {
     
     I2C.Port i2Color = I2C.Port.kOnboard;
 
-    CANSparkMax upper = new CANSparkMax(3, MotorType.kBrushless);
-    CANSparkMax lower = new CANSparkMax(1, MotorType.kBrushless);
+    // CANSparkMax upper = new CANSparkMax(3, MotorType.kBrushless);
+    // CANSparkMax lower = new CANSparkMax(1, MotorType.kBrushless);
 
     ColorSensorV3 scan = new ColorSensorV3(i2Color);
 
-    WPI_TalonSRX tipper = new WPI_TalonSRX(9);
+    // WPI_TalonSRX tipper = new WPI_TalonSRX(9);
 
-    Joystick logi = new Joystick(1);
+    // Joystick logi = new Joystick(1);
 
     colorParse colorTest = new colorParse();
 
@@ -59,22 +59,31 @@ public class Robot extends TimedRobot {
   
   @Override
   public void teleopPeriodic() {
-    System.out.println(scan.getBlue() + " blue");
-    System.out.println(scan.getGreen() + " green");
-    System.out.println(scan.getRed() + " red");
-    // colorTest.colorOutput(scan.getBlue(), scan.getGreen(), scan.getRed());
+    double blue = scan.getBlue();
+    double red = scan.getRed();
+    double green = scan.getGreen();
+
+    double redBlue = red/blue;
+    double redGreen = red/green;
+    double blueGreen = blue/green;
+
+    System.out.println(redBlue + " redBlue");
+    System.out.println(redGreen + " redGreen");
+    System.out.println(blueGreen + " blueGreen");
+
+    colorTest.colorOutput(scan.getBlue(), scan.getGreen(), scan.getRed());
     
 
-    double powerOut = (-logi.getRawAxis(2) + 1)* 0.5;
-    int powerRead = (int)(powerOut*100);
+    // double powerOut = (-logi.getRawAxis(2) + 1)* 0.5;
+    // int powerRead = (int)(powerOut*100);
 
-    System.out.println(powerRead);
-    if(powerRead == 69){
-      System.out.println("nice");
-    }
+    // System.out.println(powerRead);
+    // if(powerRead == 69){
+    //   System.out.println("nice");
+    // }
       //oh hi there
-    upper.set(-powerOut);
-    lower.set(-powerOut);
+    // upper.set(-powerOut);
+    // lower.set(-powerOut);
 
     // tipper.set(logi.getRawAxis(1));
     
