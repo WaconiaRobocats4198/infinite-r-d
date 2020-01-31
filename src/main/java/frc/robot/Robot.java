@@ -63,15 +63,13 @@ public class Robot extends TimedRobot {
     double red = scan.getRed();
     double green = scan.getGreen();
 
-    double redBlue = red/blue;
-    double redGreen = red/green;
-    double blueGreen = blue/green;
+    System.out.println(colorTest.colorOutput(blue, green, red));
 
-    System.out.println(redBlue + " redBlue");
-    System.out.println(redGreen + " redGreen");
-    System.out.println(blueGreen + " blueGreen");
+    // System.out.println(redBlue + " redBlue");
+    // System.out.println(redGreen + " redGreen");
+    // System.out.println(blueGreen + " blueGreen");
 
-    colorTest.colorOutput(scan.getBlue(), scan.getGreen(), scan.getRed());
+    // System.out.println(colorTest.colorOutput(blue, green, red));
     
 
     // double powerOut = (-logi.getRawAxis(2) + 1)* 0.5;
