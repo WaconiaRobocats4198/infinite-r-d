@@ -6,14 +6,18 @@ public class colorParse{
         // double redGreen = cRed/cGreen;
         // double blueGreen = cBlue/cGreen; 
 
-        // double blueRed = cBlue/cRed;
+        double blueRed = cBlue/cRed;
         // double greenRed = cGreen/cRed;
         // double greenBlue = cGreen/cBlue;
 
         // System.out.println(blueRed + " blueRed");
         // System.out.println(greenRed + " greenRed");
         // System.out.println(greenBlue + " greenBlue");
-        if(cGreen > cBlue && cGreen > cRed){
+        if(cGreen > cRed && blueRed > 1.8){
+            // System.out.println("BLUE");
+            return "B";
+        }
+        else if(cGreen > cBlue && cGreen > cRed){
             if(cRed > cBlue){
                 return "Y";
             }
@@ -21,11 +25,7 @@ public class colorParse{
                 return "G";
             }
         }
-        else if(cGreen > cRed && cGreen <= cBlue){
-            // System.out.println("BLUE");
-            return "B";
-        }
-        else if(cGreen > cBlue && cGreen < cRed) {
+        else if(cGreen > cBlue && cGreen < cRed ) {
             return "R";
         }
         else{
