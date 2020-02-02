@@ -12,7 +12,7 @@ public class colorParse{
         else if(red < 0 && red > -10 && green < 0 && green > -10 && blue < 0 && blue > -10){
             return "G";
         }
-        else if(redBlue > 0.27 && redBlue < 0.28 && blueGreen > 1.05 && blueGreen < 1.15 && redGreen > 0.25 && redGreen < 0.35){
+        else if(redBlue > 0.25 && redBlue < 0.35 && blueGreen > 1.05 && blueGreen < 1.15 && redGreen > 0.25 && redGreen < 0.35){
             System.out.println("BLUE");
             return "B";
         }

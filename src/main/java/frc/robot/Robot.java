@@ -21,18 +21,21 @@ import com.revrobotics.ColorSensorV3;
 
 public class Robot extends TimedRobot {
     
-    I2C.Port i2Color = I2C.Port.kOnboard;
+    // I2C.Port i2Color = I2C.Port.kOnboard;
 
-    // CANSparkMax upper = new CANSparkMax(3, MotorType.kBrushless);
-    // CANSparkMax lower = new CANSparkMax(1, MotorType.kBrushless);
+    CANSparkMax upper = new CANSparkMax(3, MotorType.kBrushless);
+    CANSparkMax lower = new CANSparkMax(1, MotorType.kBrushless);
 
-    ColorSensorV3 scan = new ColorSensorV3(i2Color);
+    CANEncoder upperEnc = new CANEncoder(upper);
+    CANEncoder lowerEnc = new CANEncoder(lower);
+
+    // ColorSensorV3 scan = new ColorSensorV3(i2Color);
 
     // WPI_TalonSRX tipper = new WPI_TalonSRX(9);
 
-    // Joystick logi = new Joystick(1);
+    Joystick logi = new Joystick(1);
 
-    colorParse colorTest = new colorParse();
+    // colorParse colorTest = new colorParse();
 
   @Override
   public void robotInit() {
@@ -59,31 +62,35 @@ public class Robot extends TimedRobot {
   
   @Override
   public void teleopPeriodic() {
-    double blue = scan.getBlue();
-    double red = scan.getRed();
-    double green = scan.getGreen();
+    // double blue = scan.getBlue();
+    // double red = scan.getRed();
+    // double green = scan.getGreen();
 
-    double redBlue = red/blue;
-    double redGreen = red/green;
-    double blueGreen = blue/green;
+    // double redBlue = red/blue;
+    // double redGreen = red/green;
+    // double blueGreen = blue/green;
 
-    System.out.println(redBlue + " redBlue");
-    System.out.println(redGreen + " redGreen");
-    System.out.println(blueGreen + " blueGreen");
+    // System.out.println(redBlue + " redBlue");
+    // System.out.println(redGreen + " redGreen");
+    // System.out.println(blueGreen + " blueGreen");
 
-    colorTest.colorOutput(scan.getBlue(), scan.getGreen(), scan.getRed());
+    // colorTest.colorOutput(scan.getBlue(), scan.getGreen(), scan.getRed());
     
 
-    // double powerOut = (-logi.getRawAxis(2) + 1)* 0.5;
-    // int powerRead = (int)(powerOut*100);
+    double powerOut = (-logi.getRawAxis(2) + 1)* 0.5;
+    int powerRead = (int)(powerOut*100);
 
-    // System.out.println(powerRead);
-    // if(powerRead == 69){
-    //   System.out.println("nice");
-    // }
-      //oh hi there
-    // upper.set(-powerOut);
-    // lower.set(-powerOut);
+    System.out.println(powerRead);
+    if(powerRead == 69){
+      System.out.println("nice");
+    }
+    
+    upper.set(-powerOut);
+    lower.set(-powerOut);
+
+    System.out.println(lowerEnc.getVelocity() + " lower speed");
+    System.out.println(upperEnc.getVelocity() + " upper speed");
+
 
     // tipper.set(logi.getRawAxis(1));
     
