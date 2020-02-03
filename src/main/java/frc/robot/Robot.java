@@ -14,8 +14,10 @@ import com.ctre.phoenix.motorcontrol.can.*;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANEncoder;
+import com.revrobotics.CANPIDController;
 import com.revrobotics.SparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.ControlType;
 
 import com.revrobotics.ColorSensorV3;
 
@@ -29,17 +31,45 @@ public class Robot extends TimedRobot {
     CANEncoder upperEnc = new CANEncoder(upper);
     CANEncoder lowerEnc = new CANEncoder(lower);
 
+    CANPIDController uSpeedControl = new CANPIDController(upper);
+    CANPIDController lSpeedControl = new CANPIDController(lower);
+
     // ColorSensorV3 scan = new ColorSensorV3(i2Color);
 
     // WPI_TalonSRX tipper = new WPI_TalonSRX(9);
 
     Joystick logi = new Joystick(1);
 
+    limelight tracker = new limelight();
+
+    double kP = 5e-5; 
+    double kI = 5e-7;
+    double kD = 0; 
+    double kIz = 0; 
+    double kFF = 0; 
+    double kMaxOutput = 1; 
+    double kMinOutput = -1;
+    double maxRPM = 5700;
+
+    // set PID coefficients
+    
     // colorParse colorTest = new colorParse();
 
   @Override
   public void robotInit() {
+    uSpeedControl.setP(kP);
+    uSpeedControl.setI(kI);
+    uSpeedControl.setD(kD);
+    uSpeedControl.setIZone(kIz);
+    uSpeedControl.setFF(kFF);
+    uSpeedControl.setOutputRange(kMinOutput, kMaxOutput);
 
+    lSpeedControl.setP(kP);
+    lSpeedControl.setI(kI);
+    lSpeedControl.setD(kD);
+    lSpeedControl.setIZone(kIz);
+    lSpeedControl.setFF(kFF);
+    lSpeedControl.setOutputRange(kMinOutput, kMaxOutput);
   }
 
  
@@ -77,19 +107,22 @@ public class Robot extends TimedRobot {
     // colorTest.colorOutput(scan.getBlue(), scan.getGreen(), scan.getRed());
     
 
-    double powerOut = (-logi.getRawAxis(2) + 1)* 0.5;
-    int powerRead = (int)(powerOut*100);
+    // double powerOut = (-logi.getRawAxis(2) + 1)* 0.5;
+    // int powerRead = (int)(powerOut*100);
 
-    System.out.println(powerRead);
-    if(powerRead == 69){
-      System.out.println("nice");
-    }
+    // System.out.println(powerRead);
+    // if(powerRead == 69){
+    //   System.out.println("nice");
+    // }
+
+    System.out.println(tracker.rangeFinder());
     
-    upper.set(-powerOut);
-    lower.set(-powerOut);
 
-    System.out.println(lowerEnc.getVelocity() + " lower speed");
-    System.out.println(upperEnc.getVelocity() + " upper speed");
+    // uSpeedControl.setReference(-powerOut * 4500, ControlType.kVelocity);
+    // lSpeedControl.setReference(-powerOut * 5420, ControlType.kVelocity);
+
+    // System.out.println(-lowerEnc.getVelocity() + " lower speed");
+    // System.out.println(-upperEnc.getVelocity() + " upper speed");
 
 
     // tipper.set(logi.getRawAxis(1));
