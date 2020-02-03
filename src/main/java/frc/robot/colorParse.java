@@ -1,25 +1,41 @@
 package frc.robot;
 
 public class colorParse{
-    String colorOutput(int blue, int green, int red){
-        double redBlue = red/blue;
-        double redGreen = red/green;
-        double blueGreen = blue/green;
+    String colorOutput(double cBlue, double cGreen, double cRed){
+        // double redBlue = cRed/cBlue;
+        // double redGreen = cRed/cGreen;
+        // double blueGreen = cBlue/cGreen; 
 
-        if(red < 0 && red > -10 && green < 0 && green > -10 && blue < 0 && blue > -10){
-            return "R";
+        double blueRed = cBlue/cRed;
+        // double greenRed = cGreen/cRed;
+        // double greenBlue = cGreen/cBlue;
+
+        // System.out.println(blueRed + " blueRed");
+        // System.out.println(greenRed + " greenRed");
+        // System.out.println(greenBlue + " greenBlue");
+        if(cGreen > cRed && blueRed > 1.8){
+            // System.out.println("BLUE");
+            return "B";
         }
-        else if(red < 0 && red > -10 && green < 0 && green > -10 && blue < 0 && blue > -10){
-            return "G";
+        else if(cGreen > cBlue && cGreen > cRed){
+            if(cRed > cBlue){
+                return "Y";
+            }
+            else{
+                return "G";
+            }
         }
+<<<<<<< HEAD
         else if(redBlue > 0.25 && redBlue < 0.35 && blueGreen > 1.05 && blueGreen < 1.15 && redGreen > 0.25 && redGreen < 0.35){
             System.out.println("BLUE");
             return "B";
+=======
+        else if(cGreen > cBlue && cGreen < cRed ) {
+            return "R";
+>>>>>>> 6298842e2379d439211694ec8d8345eb90ec6f96
         }
-        else if(red < 0 && red > -10 && green < 0 && green > -10 && blue < 0 && blue > -10){
-            return "Y";
+        else{
+            return "oops";
         }
-        
-        return "non";
     }
 }
