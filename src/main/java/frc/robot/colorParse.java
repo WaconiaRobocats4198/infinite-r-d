@@ -25,14 +25,8 @@ public class colorParse{
                 return "G";
             }
         }
-<<<<<<< HEAD
-        else if(redBlue > 0.25 && redBlue < 0.35 && blueGreen > 1.05 && blueGreen < 1.15 && redGreen > 0.25 && redGreen < 0.35){
-            System.out.println("BLUE");
-            return "B";
-=======
         else if(cGreen > cBlue && cGreen < cRed ) {
             return "R";
->>>>>>> 6298842e2379d439211694ec8d8345eb90ec6f96
         }
         else{
             return "oops";

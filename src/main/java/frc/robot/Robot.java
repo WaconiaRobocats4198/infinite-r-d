@@ -115,7 +115,7 @@ public class Robot extends TimedRobot {
     //   System.out.println("nice");
     // }
 
-    System.out.println(tracker.rangeFinder());
+    System.out.println(tracker.rangeFinder() + " distance");
     
 
     // uSpeedControl.setReference(-powerOut * 4500, ControlType.kVelocity);
