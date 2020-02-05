@@ -23,10 +23,10 @@ public class limelight {
     NetworkTableEntry stream = table.getEntry("stream");
     NetworkTableEntry pipeline = table.getEntry("pipeline");
     public double rangeFinder(){
-        double heightFloor = 22;
+        double heightFloor = 21.35;
         double llOffset = 0;
-        double llAngle = 20;
-        double targetHeight = 40;
+        double llAngle = 18.5;
+        double targetHeight = 66.25;
 
         int target = (int)tv.getDouble(0.0);
   
@@ -34,6 +34,7 @@ public class limelight {
 
         // System.out.println(yOff + " YOFF");
         double xOff = tx.getDouble(0.0);
+        System.out.println(xOff);
 
         double distance = -0.0;
         if (target != 0){
