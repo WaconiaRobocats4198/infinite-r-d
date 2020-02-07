@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;
+import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.util.Color;
 
 import com.ctre.phoenix.motorcontrol.can.*;
@@ -33,6 +34,14 @@ public class Robot extends TimedRobot {
 
     CANPIDController uSpeedControl = new CANPIDController(upper);
     CANPIDController lSpeedControl = new CANPIDController(lower);
+
+
+    public static WPI_TalonSRX frontLeft = new WPI_TalonSRX(4);
+    public static WPI_TalonSRX frontRight = new WPI_TalonSRX(5);
+    public static WPI_TalonSRX backLeft = new WPI_TalonSRX(6);
+    public static WPI_TalonSRX backRight = new WPI_TalonSRX(7);
+
+    public static MecanumDrive scoot = new MecanumDrive(frontLeft, backLeft, frontRight, backRight);
 
     // ColorSensorV3 scan = new ColorSensorV3(i2Color);
 
@@ -115,8 +124,14 @@ public class Robot extends TimedRobot {
     //   System.out.println("nice");
     // }
 
-    System.out.println(tracker.rangeFinder() + " distance");
-    
+    // System.out.println(tracker.rangeFinder() + " distance");
+    System.out.println(tracker.offsetCalculator());
+    if(tracker.xOff < tracker.offsetCalculator() -1){
+      scoot.driveCartesian(0, 0, -0.1);
+    }
+    else if(tracker.xOff > tracker.offsetCalculator() + 1){
+      scoot.driveCartesian(0, 0, 0.15);
+    }
 
     // uSpeedControl.setReference(-powerOut * 4500, ControlType.kVelocity);
     // lSpeedControl.setReference(-powerOut * 5420, ControlType.kVelocity);

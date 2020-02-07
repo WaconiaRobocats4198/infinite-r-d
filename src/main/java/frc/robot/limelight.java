@@ -22,19 +22,27 @@ public class limelight {
     NetworkTableEntry camMode = table.getEntry("camMode");
     NetworkTableEntry stream = table.getEntry("stream");
     NetworkTableEntry pipeline = table.getEntry("pipeline");
+    public double xOff;
+    public double offsetCalculator(){
+      double inchOffRobot = 4.25;
+      double offset = Math.atan(inchOffRobot/rangeFinder()); 
+      
+      offset = (offset * 180)/Math.PI;
+      return offset;
+    }
     public double rangeFinder(){
-        double heightFloor = 21.35;
-        double llOffset = 0;
-        double llAngle = 18.5;
-        double targetHeight = 66.25;
+        double heightFloor = 22;
+        double llOffset = -4.25;
+        double llAngle = 17.1;
+        double targetHeight = 98;
 
         int target = (int)tv.getDouble(0.0);
   
         double yOff = ty.getDouble(0.0);
 
         // System.out.println(yOff + " YOFF");
-        double xOff = tx.getDouble(0.0);
-        System.out.println(xOff);
+        xOff = tx.getDouble(0.0);
+        // System.out.println(xOff);
 
         double distance = -0.0;
         if (target != 0){
