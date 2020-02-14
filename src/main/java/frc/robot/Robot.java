@@ -137,7 +137,7 @@ public class Robot extends TimedRobot {
     // else if(tracker.xOff > tracker.offsetCalculator() + 1){
     //   scoot.driveCartesian(0, 0, 0.15);
     // }
-    lower.setOpenLoopRampRate(0.3);
+    
     // uSpeedControl.setReference(-powerOut * 11000, ControlType.kVelocity);
     if(logi.getRawButton(1)){
       lower.set(0.3);;
@@ -145,8 +145,6 @@ public class Robot extends TimedRobot {
     else{
       lower.set(0);;
     }
-    // lower.set(powerOut);
-    System.out.println(-lowerEnc.getVelocity() + " lower speed");
     // System.out.println(-upperEnc.getVelocity() + " upper speed");
 
 
