@@ -14,62 +14,38 @@ import com.ctre.phoenix.motorcontrol.can.*;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANEncoder;
-import com.revrobotics.CANPIDController;
 import com.revrobotics.SparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.ControlType;
 
 import com.revrobotics.ColorSensorV3;
 
 public class Robot extends TimedRobot {
+  
     
-    // I2C.Port i2Color = I2C.Port.kOnboard;
+    I2C.Port i2Color = I2C.Port.kOnboard;
 
-    CANSparkMax upper = new CANSparkMax(3, MotorType.kBrushless);
-    CANSparkMax lower = new CANSparkMax(1, MotorType.kBrushless);
+    //CANSparkMax upper = new CANSparkMax(3, MotorType.kBrushless);
+    //CANSparkMax lower = new CANSparkMax(1, MotorType.kBrushless);
 
-    CANEncoder upperEnc = new CANEncoder(upper);
-    CANEncoder lowerEnc = new CANEncoder(lower);
+    ColorSensorV3 scan = new ColorSensorV3(i2Color);
+    colorParse colorWheel = new colorParse();
+    String lastColor = "oops";
+    String currentColor = colorWheel.colorOutput(scan.getBlue(), scan.getGreen(), scan.getRed());
+    int blue = 0;
+    int green = 0;
+    int red = 0;
+    int yellow = 0;
 
-    CANPIDController uSpeedControl = new CANPIDController(upper);
-    CANPIDController lSpeedControl = new CANPIDController(lower);
+    //WPI_TalonSRX tipper = new WPI_TalonSRX(9);
 
-    // ColorSensorV3 scan = new ColorSensorV3(i2Color);
+    //Joystick logi = new Joystick(1);
 
-    // WPI_TalonSRX tipper = new WPI_TalonSRX(9);
-
-    Joystick logi = new Joystick(1);
-
-    limelight tracker = new limelight();
-
-    double kP = 5e-5; 
-    double kI = 5e-7;
-    double kD = 0; 
-    double kIz = 0; 
-    double kFF = 0; 
-    double kMaxOutput = 1; 
-    double kMinOutput = -1;
-    double maxRPM = 5700;
-
-    // set PID coefficients
-    
-    // colorParse colorTest = new colorParse();
+    String lastTrue;
 
   @Override
   public void robotInit() {
-    uSpeedControl.setP(kP);
-    uSpeedControl.setI(kI);
-    uSpeedControl.setD(kD);
-    uSpeedControl.setIZone(kIz);
-    uSpeedControl.setFF(kFF);
-    uSpeedControl.setOutputRange(kMinOutput, kMaxOutput);
-
-    lSpeedControl.setP(kP);
-    lSpeedControl.setI(kI);
-    lSpeedControl.setD(kD);
-    lSpeedControl.setIZone(kIz);
-    lSpeedControl.setFF(kFF);
-    lSpeedControl.setOutputRange(kMinOutput, kMaxOutput);
+    currentColor = colorWheel.colorOutput(scan.getBlue(), scan.getGreen(), scan.getRed());
+    lastTrue = currentColor;
   }
 
  
@@ -92,40 +68,46 @@ public class Robot extends TimedRobot {
   
   @Override
   public void teleopPeriodic() {
-    // double blue = scan.getBlue();
-    // double red = scan.getRed();
-    // double green = scan.getGreen();
-
-    // double redBlue = red/blue;
-    // double redGreen = red/green;
-    // double blueGreen = blue/green;
-
-    // System.out.println(redBlue + " redBlue");
-    // System.out.println(redGreen + " redGreen");
-    // System.out.println(blueGreen + " blueGreen");
-
-    // System.out.println(colorTest.colorOutput(blue, green, red));
+    //System.out.println("FECK");
+    //System.out.println(scan.getBlue());
     
+    //System.out.println(scan.getGreen());
+    System.out.println(colorWheel.colorOutput(scan.getBlue(), scan.getGreen(), scan.getRed()));
 
-    // double powerOut = (-logi.getRawAxis(2) + 1)* 0.5;
-    // int powerRead = (int)(powerOut*100);
+    //double powerOut = (-logi.getRawAxi````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````s(2) + 1)* 0.5;
+    //int powerRead = (int)(powerOut*100);
 
-    // System.out.println(powerRead);
-    // if(powerRead == 69){
-    //   System.out.println("nice");
-    // }
-
-    System.out.println(tracker.rangeFinder() + " distance");
-    
-
-    // uSpeedControl.setReference(-powerOut * 4500, ControlType.kVelocity);
-    // lSpeedControl.setReference(-powerOut * 5420, ControlType.kVelocity);
-
-    // System.out.println(-lowerEnc.getVelocity() + " lower speed");
-    // System.out.println(-upperEnc.getVelocity() + " upper speed");
-
+    //System.out.println(powerRead);
+    //if(powerRead == 69){
+      //System.out.println("nice");
+    //}
+      //oh hi there
+    //upper.set(-powerOut);
+    //lower.set(-powerOut);
 
     // tipper.set(logi.getRawAxis(1));
+    
+    currentColor = colorWheel.colorOutput(scan.getBlue(), scan.getGreen(), scan.getRed());
+    if(lastColor != currentColor){
+      if(currentColor == "B" && lastTrue ==  "G"){
+        blue++;
+        lastTrue = currentColor;
+      }
+      else if(currentColor == "G" && lastTrue == "R"){
+        green++;
+        lastTrue = currentColor;
+      }
+      else if(currentColor == "R" && lastTrue == "Y"){
+        red++;
+        lastTrue = currentColor;
+      }
+      else if(currentColor == "Y" && lastTrue == "B"){
+        yellow++;
+        lastTrue = currentColor;
+      }
+    }
+    lastColor = currentColor;
+    System.out.println("blue: "+ blue + " green: "+ green + " red: "+ red + " yellow: "+ yellow);
     
   }
 
