@@ -35,13 +35,15 @@ public class Robot extends TimedRobot {
     CANPIDController uSpeedControl = new CANPIDController(upper);
     CANPIDController lSpeedControl = new CANPIDController(lower);
 
+    
 
-    public static WPI_TalonSRX frontLeft = new WPI_TalonSRX(4);
-    public static WPI_TalonSRX frontRight = new WPI_TalonSRX(5);
-    public static WPI_TalonSRX backLeft = new WPI_TalonSRX(6);
-    public static WPI_TalonSRX backRight = new WPI_TalonSRX(7);
 
-    public static MecanumDrive scoot = new MecanumDrive(frontLeft, backLeft, frontRight, backRight);
+    // public static WPI_TalonSRX frontLeft = new WPI_TalonSRX(4);
+    // public static WPI_TalonSRX frontRight = new WPI_TalonSRX(5);
+    // public static WPI_TalonSRX backLeft = new WPI_TalonSRX(6);
+    // public static WPI_TalonSRX backRight = new WPI_TalonSRX(7);
+
+    // public static MecanumDrive scoot = new MecanumDrive(frontLeft, backLeft, frontRight, backRight);
 
     // ColorSensorV3 scan = new ColorSensorV3(i2Color);
 
@@ -51,8 +53,8 @@ public class Robot extends TimedRobot {
 
     limelight tracker = new limelight();
 
-    double kP = 5e-5; 
-    double kI = 5e-7;
+    double kP = 1e-4; 
+    double kI = 3e-7;
     double kD = 0; 
     double kIz = 0; 
     double kFF = 0; 
@@ -79,6 +81,9 @@ public class Robot extends TimedRobot {
     lSpeedControl.setIZone(kIz);
     lSpeedControl.setFF(kFF);
     lSpeedControl.setOutputRange(kMinOutput, kMaxOutput);
+
+    lower.setOpenLoopRampRate(0.3);
+    lower.setClosedLoopRampRate(0.3);
   }
 
  
@@ -116,7 +121,7 @@ public class Robot extends TimedRobot {
     // System.out.println(colorTest.colorOutput(blue, green, red));
     
 
-    // double powerOut = (-logi.getRawAxis(2) + 1)* 0.5;
+    double powerOut = (-logi.getRawAxis(2) + 1) * 0.5;
     // int powerRead = (int)(powerOut*100);
 
     // System.out.println(powerRead);
@@ -125,18 +130,23 @@ public class Robot extends TimedRobot {
     // }
 
     // System.out.println(tracker.rangeFinder() + " distance");
-    System.out.println(tracker.offsetCalculator());
-    if(tracker.xOff < tracker.offsetCalculator() -1){
-      scoot.driveCartesian(0, 0, -0.1);
+    // System.out.println(tracker.offsetCalculator());
+    // if(tracker.xOff < tracker.offsetCalculator() -1){
+    //   scoot.driveCartesian(0, 0, -0.1);
+    // }
+    // else if(tracker.xOff > tracker.offsetCalculator() + 1){
+    //   scoot.driveCartesian(0, 0, 0.15);
+    // }
+    lower.setOpenLoopRampRate(0.3);
+    // uSpeedControl.setReference(-powerOut * 11000, ControlType.kVelocity);
+    if(logi.getRawButton(1)){
+      lower.set(0.3);;
     }
-    else if(tracker.xOff > tracker.offsetCalculator() + 1){
-      scoot.driveCartesian(0, 0, 0.15);
+    else{
+      lower.set(0);;
     }
-
-    // uSpeedControl.setReference(-powerOut * 4500, ControlType.kVelocity);
-    // lSpeedControl.setReference(-powerOut * 5420, ControlType.kVelocity);
-
-    // System.out.println(-lowerEnc.getVelocity() + " lower speed");
+    // lower.set(powerOut);
+    System.out.println(-lowerEnc.getVelocity() + " lower speed");
     // System.out.println(-upperEnc.getVelocity() + " upper speed");
 
 
