@@ -35,8 +35,6 @@ public class Robot extends TimedRobot {
     CANPIDController uSpeedControl = new CANPIDController(upper);
     CANPIDController lSpeedControl = new CANPIDController(lower);
 
-    
-
 
     // public static WPI_TalonSRX frontLeft = new WPI_TalonSRX(4);
     // public static WPI_TalonSRX frontRight = new WPI_TalonSRX(5);
@@ -62,6 +60,8 @@ public class Robot extends TimedRobot {
     double kMinOutput = -1;
     double maxRPM = 5700;
 
+    double pAdjust = -4;
+
     // set PID coefficients
     
     // colorParse colorTest = new colorParse();
@@ -81,9 +81,6 @@ public class Robot extends TimedRobot {
     lSpeedControl.setIZone(kIz);
     lSpeedControl.setFF(kFF);
     lSpeedControl.setOutputRange(kMinOutput, kMaxOutput);
-
-    lower.setOpenLoopRampRate(0.3);
-    lower.setClosedLoopRampRate(0.3);
   }
 
  
@@ -137,14 +134,28 @@ public class Robot extends TimedRobot {
     // else if(tracker.xOff > tracker.offsetCalculator() + 1){
     //   scoot.driveCartesian(0, 0, 0.15);
     // }
-    
+
     // uSpeedControl.setReference(-powerOut * 11000, ControlType.kVelocity);
+    
+    
+    if(logi.getRawButtonReleased(3)){
+      pAdjust++;
+    }
+    if(logi.getRawButtonReleased(2)){
+      pAdjust--;
+    }
+    
+    kP = 1 * Math.pow(10, pAdjust);
+    lSpeedControl.setP(kP);
+    
     if(logi.getRawButton(1)){
-      lower.set(0.3);;
+      lSpeedControl.setReference(400 * (double)((int)(logi.getRawAxis(2))), ControlType.kVelocity);
     }
     else{
-      lower.set(0);;
+      lower.set(0);
     }
+    // lower.set(powerOut);
+    System.out.println(-lowerEnc.getVelocity() + " lower speed");
     // System.out.println(-upperEnc.getVelocity() + " upper speed");
 
 
