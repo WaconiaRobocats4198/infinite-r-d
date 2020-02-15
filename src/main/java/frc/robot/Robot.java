@@ -1,4 +1,5 @@
 package frc.robot;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.I2C;
 //git test
 import edu.wpi.first.wpilibj.Joystick;
@@ -26,14 +27,16 @@ public class Robot extends TimedRobot {
     
     // I2C.Port i2Color = I2C.Port.kOnboard;
 
-    CANSparkMax upper = new CANSparkMax(3, MotorType.kBrushless);
-    CANSparkMax lower = new CANSparkMax(1, MotorType.kBrushless);
+    CANSparkMax upper = new CANSparkMax(1, MotorType.kBrushless);
+    // CANSparkMax lower = new CANSparkMax(1, MotorType.kBrushless);
 
     CANEncoder upperEnc = new CANEncoder(upper);
-    CANEncoder lowerEnc = new CANEncoder(lower);
+    // CANEncoder lowerEnc = new CANEncoder(lower);
 
     CANPIDController uSpeedControl = new CANPIDController(upper);
-    CANPIDController lSpeedControl = new CANPIDController(lower);
+    // CANPIDController lSpeedControl = new CANPIDController(lower);
+
+    DigitalInput testSwitch = new DigitalInput(0);
 
 
     // public static WPI_TalonSRX frontLeft = new WPI_TalonSRX(4);
@@ -75,12 +78,12 @@ public class Robot extends TimedRobot {
     uSpeedControl.setFF(kFF);
     uSpeedControl.setOutputRange(kMinOutput, kMaxOutput);
 
-    lSpeedControl.setP(kP);
-    lSpeedControl.setI(kI);
-    lSpeedControl.setD(kD);
-    lSpeedControl.setIZone(kIz);
-    lSpeedControl.setFF(kFF);
-    lSpeedControl.setOutputRange(kMinOutput, kMaxOutput);
+    // lSpeedControl.setP(kP);
+    // lSpeedControl.setI(kI);
+    // lSpeedControl.setD(kD);
+    // lSpeedControl.setIZone(kIz);
+    // lSpeedControl.setFF(kFF);
+    // lSpeedControl.setOutputRange(kMinOutput, kMaxOutput);
   }
 
  
@@ -118,7 +121,7 @@ public class Robot extends TimedRobot {
     // System.out.println(colorTest.colorOutput(blue, green, red));
     
 
-    double powerOut = (-logi.getRawAxis(2) + 1) * 0.5;
+    // double powerOut = (-logi.getRawAxis(2) + 1) * 0.5;
     // int powerRead = (int)(powerOut*100);
 
     // System.out.println(powerRead);
@@ -135,27 +138,34 @@ public class Robot extends TimedRobot {
     //   scoot.driveCartesian(0, 0, 0.15);
     // }
 
-    // uSpeedControl.setReference(-powerOut * 11000, ControlType.kVelocity);
-    
-    
-    if(logi.getRawButtonReleased(3)){
-      pAdjust++;
-    }
-    if(logi.getRawButtonReleased(2)){
-      pAdjust--;
-    }
-    
-    kP = 1 * Math.pow(10, pAdjust);
-    lSpeedControl.setP(kP);
-    
+    // uSpeedControl.setReference(-5400, ControlType.kVelocity);
     if(logi.getRawButton(1)){
-      lSpeedControl.setReference(400 * (double)((int)(logi.getRawAxis(2))), ControlType.kVelocity);
+      upper.set(0.5);
+
     }
     else{
-      lower.set(0);
+      upper.set(0);
     }
+
+    
+    // if(logi.getRawButtonReleased(3)){
+    //   pAdjust++;
+    // }
+    // if(logi.getRawButtonReleased(2)){
+    //   pAdjust--;
+    // }
+    
+    // kP = 1 * Math.pow(10, pAdjust);
+    // lSpeedControl.setP(kP);
+    
+    // if(logi.getRawButton(1)){
+    //   lSpeedControl.setReference(400 * (double)((int)(logi.getRawAxis(2))), ControlType.kVelocity);
+    // }
+    // else{
+    //   lower.set(0);
+    // }
     // lower.set(powerOut);
-    System.out.println(-lowerEnc.getVelocity() + " lower speed");
+    // System.out.println(-lowerEnc.getVelocity() + " lower speed");
     // System.out.println(-upperEnc.getVelocity() + " upper speed");
 
 
