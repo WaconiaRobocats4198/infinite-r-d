@@ -46,7 +46,6 @@ public class Robot extends TimedRobot {
     // CANPIDController lSpeedControl = new CANPIDController(lower);
 
     DigitalInput testSwitch = new DigitalInput(0);
-    private ShuffleboardTab tab = Shuffleboard.getTab("Auto");
 
     // public NetworkTableEntry maxSpeed =
     //       tab.add("Auto", 1)
@@ -67,8 +66,8 @@ public class Robot extends TimedRobot {
 
     limelight tracker = new limelight();
 
-    public static DigitalInput inSensor = new DigitalInput(0);
-    public static DigitalInput outSensor = new DigitalInput(1);
+    // public static DigitalInput inSensor = new DigitalInput(0);
+    // public static DigitalInput outSensor = new DigitalInput(1);
 
     double kP = 1e-4; 
     double kI = 3e-7;
@@ -138,12 +137,12 @@ public class Robot extends TimedRobot {
     // System.out.println(blueGreen + " blueGreen");
 
     // System.out.println(colorTest.colorOutput(blue, green, red));
-    
+    // System.out.println(logi.getRawAxis(1));
 
     double powerOut = (-logi.getRawAxis(2) + 1) * 0.5;
     int multiply;
     if(logi.getRawButton(6)){
-      multiply = 1;
+      multiply = 1; 
     }
     else if(logi.getRawButton(7)){
       multiply = -1;
