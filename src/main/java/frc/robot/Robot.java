@@ -33,10 +33,18 @@ import com.revrobotics.ControlType;
 import com.revrobotics.ColorSensorV3;
 
 public class Robot extends TimedRobot {
+    int frontLeft = 1;
+    int frontRight = 2;
+    int backLeft = 12;
+    int backRight = 11;
+
+
     
     // I2C.Port i2Color = I2C.Port.kOnboard;
 
     CANSparkMax inUse = new CANSparkMax(5, MotorType.kBrushless);
+    CANSparkMax toplauncher = new CANSparkMax(6, MotorType.kBrushless);
+    CANSparkMax botLauncher = new CANSparkMax(7, MotorType.kBrushless);
     // CANSparkMax lower = new CANSparkMax(1, MotorType.kBrushless);
 
     CANEncoder upperEnc = new CANEncoder(inUse);
@@ -124,6 +132,8 @@ public class Robot extends TimedRobot {
   
   @Override
   public void teleopPeriodic() {
+    System.out.println(testSwitch.get());
+   
     // double blue = scan.getBlue();
     // double red = scan.getRed();
     // double green = scan.getGreen();
@@ -139,18 +149,27 @@ public class Robot extends TimedRobot {
     // System.out.println(colorTest.colorOutput(blue, green, red));
     // System.out.println(logi.getRawAxis(1));
 
-    double powerOut = (-logi.getRawAxis(2) + 1) * 0.5;
-    int multiply;
-    if(logi.getRawButton(6)){
-      multiply = 1; 
-    }
-    else if(logi.getRawButton(7)){
-      multiply = -1;
-    }
-    else{
-      multiply = 0;
-    }
-    inUse.set(powerOut * multiply);
+    // double powerOut = (-logi.getRawAxis(2) + 1) * 0.5;
+    // int multiply;
+    // if(logi.getRawButton(6)){
+    //   multiply = 1; 
+    // }
+    // else if(logi.getRawButton(7)){
+    //   multiply = -1;
+    // }
+    // else{
+    //   multiply = 0;
+    // }
+    // inUse.set(powerOut * multiply);
+
+    // if(logi.getRawButton(1)){
+    //   toplauncher.set(-0.2);
+    //   botLauncher.set(-0.2);
+    // }
+    // else{
+    //   toplauncher.set(0);
+    //   botLauncher.set(0);
+    // }
 
     // int powerRead = (int)(powerOut*100);
 
