@@ -27,8 +27,10 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.SparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.ControlType;
 
+import com.revrobotics.ControlType;
+import com.ctre.phoenix.sensors.PigeonIMU;
+import com.ctre.phoenix.sensors.PigeonIMU_ControlFrame;
 
 import com.revrobotics.ColorSensorV3;
 
@@ -38,11 +40,10 @@ public class Robot extends TimedRobot {
     int backLeft = 12;
     int backRight = 11;
 
-
     
     // I2C.Port i2Color = I2C.Port.kOnboard;
 
-    CANSparkMax inUse = new CANSparkMax(5, MotorType.kBrushless);
+    CANSparkMax inUse = new CANSparkMax(1, MotorType.kBrushed);
     CANSparkMax toplauncher = new CANSparkMax(6, MotorType.kBrushless);
     CANSparkMax botLauncher = new CANSparkMax(7, MotorType.kBrushless);
     // CANSparkMax lower = new CANSparkMax(1, MotorType.kBrushless);
@@ -54,6 +55,10 @@ public class Robot extends TimedRobot {
     // CANPIDController lSpeedControl = new CANPIDController(lower);
 
     DigitalInput testSwitch = new DigitalInput(0);
+
+    PigeonIMU pigeon = new PigeonIMU(42);
+    double [] gyroRead = new double[3];
+    double yawTarget = 0;
 
     // public NetworkTableEntry maxSpeed =
     //       tab.add("Auto", 1)
@@ -88,9 +93,46 @@ public class Robot extends TimedRobot {
 
     double pAdjust = -4;
 
+    int stage = 0;
+
+    boolean init = false;
+    boolean startStage = true;
+
+
     // set PID coefficients
     
     // colorParse colorTest = new colorParse();
+    void rotate(int degree){
+      pigeon.getYawPitchRoll(gyroRead);
+      if(startStage == true){
+        pigeon.getYawPitchRoll(gyroRead);
+        yawTarget = gyroRead[0] + degree;
+        startStage = false;
+      }
+      
+
+      if(Math.abs(gyroRead[0]- yawTarget) >= 0.2){
+        pigeon.getYawPitchRoll(gyroRead);
+        SmartDashboard.putNumber("Roll", gyroRead[0]);
+        SmartDashboard.putNumber("Target", yawTarget);
+        if(gyroRead[0] > yawTarget + 1){
+          inUse.set(-0.2);
+        }
+        else if(gyroRead[0] < yawTarget - 1){
+          inUse.set(0.2);
+        }
+        else{
+          inUse.set((yawTarget - gyroRead[0]) * 0.01);
+        }
+        
+      }
+      else{
+        inUse.set(0);
+        stage++;
+        startStage = true;
+      }
+    }
+    
 
   @Override
   public void robotInit() {
@@ -100,6 +142,12 @@ public class Robot extends TimedRobot {
     uSpeedControl.setIZone(kIz);
     uSpeedControl.setFF(kFF);
     uSpeedControl.setOutputRange(kMinOutput, kMaxOutput);
+
+    Shuffleboard.getTab("Gyro")
+      .add("YAW", gyroRead[0])
+      .withWidget(BuiltInWidgets.kGraph);
+
+    
 
     // lSpeedControl.setP(kP);
     // lSpeedControl.setI(kI);
@@ -120,20 +168,39 @@ public class Robot extends TimedRobot {
   
   @Override
   public void autonomousInit() {
-   
-  }
-
-  
-  @Override
-  public void autonomousPeriodic() {
     
   }
 
   
   @Override
+
+  public void autonomousPeriodic() {
+    switch(stage){
+      case 0:
+        rotate(90);
+      break;
+      case 1:
+        rotate(-90);
+      break;
+      default:
+    }
+  }
+
+  @Override
   public void teleopPeriodic() {
-    System.out.println(testSwitch.get());
+    if(init == false){
+      inUse.set(0);
+      init = true;
+    }
+      // System.out.println(testSwitch.get());
+    pigeon.getYawPitchRoll(gyroRead);
+
+    System.out.println(gyroRead[0]);
+
+    SmartDashboard.putNumber("YAW", gyroRead[0]);
    
+
+    
     // double blue = scan.getBlue();
     // double red = scan.getRed();
     // double green = scan.getGreen();
@@ -221,6 +288,7 @@ public class Robot extends TimedRobot {
 
 
     // tipper.set(logi.getRawAxis(1));
+
     
   }
 
