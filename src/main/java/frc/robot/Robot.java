@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.util.Color;
-
 import edu.wpi.first.networktables.*;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -43,7 +42,7 @@ public class Robot extends TimedRobot {
     
     // I2C.Port i2Color = I2C.Port.kOnboard;
 
-    CANSparkMax inUse = new CANSparkMax(1, MotorType.kBrushed);
+    CANSparkMax inUse = new CANSparkMax(1, MotorType.kBrushless);
     CANSparkMax toplauncher = new CANSparkMax(6, MotorType.kBrushless);
     CANSparkMax botLauncher = new CANSparkMax(7, MotorType.kBrushless);
     // CANSparkMax lower = new CANSparkMax(1, MotorType.kBrushless);
@@ -82,8 +81,8 @@ public class Robot extends TimedRobot {
     // public static DigitalInput inSensor = new DigitalInput(0);
     // public static DigitalInput outSensor = new DigitalInput(1);
 
-    double kP = 1e-4; 
-    double kI = 3e-7;
+    double kP = 7e-5; 
+    double kI = 1e-7;
     double kD = 0; 
     double kIz = 0; 
     double kFF = 0; 
@@ -188,16 +187,16 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    if(init == false){
-      inUse.set(0);
-      init = true;
-    }
-      // System.out.println(testSwitch.get());
-    pigeon.getYawPitchRoll(gyroRead);
+    // if(init == false){
+    //   inUse.set(0);
+    //   init = true;
+    // }
+    //   // System.out.println(testSwitch.get());
+    // pigeon.getYawPitchRoll(gyroRead);
 
-    System.out.println(gyroRead[0]);
+    // System.out.println(gyroRead[0]);
 
-    SmartDashboard.putNumber("YAW", gyroRead[0]);
+    // SmartDashboard.putNumber("YAW", gyroRead[0]);
    
 
     
@@ -275,15 +274,22 @@ public class Robot extends TimedRobot {
     
     // kP = 1 * Math.pow(10, pAdjust);
     // lSpeedControl.setP(kP);
-    
-    // if(logi.getRawButton(1)){
-    //   lSpeedControl.setReference(400 * (double)((int)(logi.getRawAxis(2))), ControlType.kVelocity);
-    // }
-    // else{
-    //   lower.set(0);
-    // }
+    double delayTimer = 0;
+    if(logi.getRawButton(1)){
+      uSpeedControl.setReference(590, ControlType.kVelocity);
+    }
+    else{
+      inUse.set(0);
+    }
+    if(logi.getRawButtonReleased(1)){
+      delayTimer = System.currentTimeMillis() + 1000;
+    }
+    if(System.currentTimeMillis() < delayTimer){
+      inUse.set(-0.5);
+    }
+
     // lower.set(powerOut);
-    // System.out.println(-lowerEnc.getVelocity() + " lower speed");
+    System.out.println(upperEnc.getVelocity() + " speed");
     // System.out.println(-upperEnc.getVelocity() + " upper speed");
 
 
