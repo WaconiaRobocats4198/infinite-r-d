@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.networktables.*;
 import edu.wpi.first.networktables.NetworkTable;
@@ -33,12 +34,14 @@ import com.ctre.phoenix.sensors.PigeonIMU_ControlFrame;
 
 import com.revrobotics.ColorSensorV3;
 
+
 public class Robot extends TimedRobot {
     int frontLeft = 1;
     int frontRight = 2;
     int backLeft = 12;
     int backRight = 11;
-
+    int maxValue = 0;
+    int minValue = 20000;
     
     // I2C.Port i2Color = I2C.Port.kOnboard;
 
@@ -54,6 +57,7 @@ public class Robot extends TimedRobot {
     // CANPIDController lSpeedControl = new CANPIDController(lower);
 
     DigitalInput testSwitch = new DigitalInput(0);
+    AnalogInput accelerometer = new AnalogInput(0);
 
     PigeonIMU pigeon = new PigeonIMU(42);
     double [] gyroRead = new double[3];
@@ -274,22 +278,30 @@ public class Robot extends TimedRobot {
     
     // kP = 1 * Math.pow(10, pAdjust);
     // lSpeedControl.setP(kP);
-    double delayTimer = 0;
-    if(logi.getRawButton(1)){
-      uSpeedControl.setReference(590, ControlType.kVelocity);
+    // double delayTimer = 0;
+    // if(logi.getRawButton(1)){
+    //   uSpeedControl.setReference(590, ControlType.kVelocity);
+    // }
+    // else{
+    //   inUse.set(0);
+    // }
+    // if(logi.getRawButtonReleased(1)){
+    //   delayTimer = System.currentTimeMillis() + 1000;
+    // }
+    // if(System.currentTimeMillis() < delayTimer){
+    //   inUse.set(-0.5);
+    // }
+    
+    // System.out.println(accelerometer.getValue());
+    System.out.println(minValue + " minValue " + maxValue + " maxValue");
+    if(accelerometer.getValue() > maxValue){
+      maxValue = accelerometer.getValue();
     }
-    else{
-      inUse.set(0);
+    if(accelerometer.getValue() < minValue){
+      minValue = accelerometer.getValue();
     }
-    if(logi.getRawButtonReleased(1)){
-      delayTimer = System.currentTimeMillis() + 1000;
-    }
-    if(System.currentTimeMillis() < delayTimer){
-      inUse.set(-0.5);
-    }
-
     // lower.set(powerOut);
-    System.out.println(upperEnc.getVelocity() + " speed");
+    // System.out.println(upperEnc.getVelocity() + " speed");
     // System.out.println(-upperEnc.getVelocity() + " upper speed");
 
 
